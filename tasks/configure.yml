@@ -1,0 +1,70 @@
+---
+# zerodowntime.fail2ban/tasks/configure.yml
+
+
+- name: fail2ban | Remove installed by default extra config files
+  file:
+    path: "{{ fail2ban__config_directory }}{{ item }}"
+    state: absent
+  loop: "{{ fail2ban__blacklisted_files }}"
+
+
+- name: fail2ban | Disable jails enabled by default in /etc/fail2ban/jail.conf
+  lineinfile:
+    dest: "{{ fail2ban__path_jail_conf }}"
+    regexp: '^(enabled  = )true'
+    line: '\1false'
+    backrefs: true
+  when: (( fail2ban__jail_defaults_disabled is defined and fail2ban__jail_defaults_disabled ))
+  notify:
+    - Restart fail2ban
+
+
+- name: fail2ban | Add custom configuration to fail2ban.local file
+  template:
+    src: templates/fail2ban.local.j2
+    dest: "{{ fail2ban__custom_config_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart fail2ban
+
+
+- name: fail2ban | Add configuration to jail.local (default settings and a single jails(services) config)
+  template:
+    src: templates/jail.local.j2
+    dest: "{{ fail2ban__path_jail_local }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart fail2ban
+
+
+- name: fail2ban | Create a custom filter for your service
+  vars:
+    - tmpVariable: "{{ item }}"
+  template:
+    src: templates/filter.tmpl.local.j2
+    dest: "{{ fail2ban__config_directory }}/filter.d/{{ item.name }}.local"
+    owner: root
+    group: root
+    mode: 0644
+  loop: "{{ fail2ban__custom_filter }}"
+  notify:
+    - Restart fail2ban
+
+
+- name: fail2ban | Create a custom action for your service
+  vars:
+    - tmpVariable: "{{ item }}"
+  template:
+    src: templates/action.tmpl.local.j2
+    dest: "{{ fail2ban__config_directory }}/action.d/{{ item.filename }}.local"
+    owner: root
+    group: root
+    mode: 0644
+  loop: "{{ fail2ban__custom_action }}"
+  notify:
+    - Restart fail2ban

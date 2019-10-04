@@ -1,0 +1,25 @@
+---
+# zerodowntime.fail2ban/meta/main.yml
+
+galaxy_info:
+  author: ZeroDowntime <ansible@zerodowntime.pl>
+  company: ZeroDowntime Sp. z o.o.
+  role_name: fail2ban
+  description: Role to install and configure fail2ban package.
+  license: Apache License 2.0
+
+  min_ansible_version: 2.7
+
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Ubuntu
+      versions:
+        - xenial
+
+  galaxy_tags:
+    - system
+
+dependencies:
+  - role: zerodowntime.epel_repo

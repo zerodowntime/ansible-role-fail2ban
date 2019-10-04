@@ -1,0 +1,34 @@
+{% set item = tmpVariable %}
+{%    if 'before' in item.keys() or 'after' in item.keys() %}
+[INCLUDES]
+{%    endif %}
+{%    if 'before' in item.keys() %}
+{{ "%-14s = %s" | format('before', item["before"]) }}
+{%    endif %}
+{%    if 'after' in item.keys() %}
+{{ "%-14s = %s" | format('after', item["after"]) }}
+{%    endif %}
+{%    if '_daemon' in item.keys() or 'failregex' in item.keys() or 'ignoreregex' in item.keys() %}
+[Definition]
+{%    endif %}
+{%    if '_daemon' in item.keys() %}
+{{ "%-14s = %s" | format('_daemon', item["_daemon"]) }}
+{%    endif %}
+{%    if 'failregex' in item.keys() %}
+{{ "%-14s = %s" | format('failregex', item["failregex"]) }}
+{%    endif %}
+{%    if 'ignoreregex' in item.keys() %}
+{{ "%-14s = %s" | format('ignoreregex', item["ignoreregex"]) }}
+{%    endif %}
+{%    if 'maxlines' in item.keys() or 'datepattern' in item.keys() or 'journalmatch' in item.keys() %}
+[Init]
+{%    endif %}
+{%    if 'maxlines' in item.keys() %}
+{{ "%-14s = %s" | format('maxlines', item["maxlines"]) }}
+{%    endif %}
+{%    if 'datepattern' in item.keys() %}
+{{ "%-14s = %s" | format('datepattern', item["datepattern"]) }}
+{%    endif %}
+{%    if 'journalmatch' in item.keys() %}
+{{ "%-14s = %s" | format('journalmatch', item["journalmatch"]) }}
+{%    endif %}

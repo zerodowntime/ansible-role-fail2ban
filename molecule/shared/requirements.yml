@@ -1,0 +1,4 @@
+---
+
+- src: git+git@git.zdt.io:ansible/roles/zerodowntime.epel_repo.git
+  name: zerodowntime.epel_repo

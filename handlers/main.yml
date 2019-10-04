@@ -1,0 +1,9 @@
+---
+#zerodowntime.fail2ban/handlers/main.yml
+
+
+- name: "Restart fail2ban"
+  systemd:
+    name: "{{ fail2ban__service_name }}"
+    state: restarted
+  become: true

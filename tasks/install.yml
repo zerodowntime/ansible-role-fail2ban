@@ -1,0 +1,15 @@
+---
+# zerodowntime.fail2ban/tasks/install.myl
+
+
+- name: fail2ban | Install a fail2ban package
+  package:
+    name: "{{ fail2ban__package_name }}"
+    state: "{{ fail2ban__package_state }}"
+
+
+- name: fail2ban | Start and enable fail2ban service
+  systemd:
+    name: "{{ fail2ban__service_name }}"
+    state: "{{ fail2ban__service_state }}"
+    enabled: "{{ fail2ban__service_enable }}"

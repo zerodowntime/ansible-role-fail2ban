@@ -1,0 +1,88 @@
+{% if fail2ban__jail_defaults is defined and fail2ban__jail_defaults  %}
+[INCLUDES]
+{%    if fail2ban__jail_defaults.before is defined and fail2ban__jail_defaults.before  %}
+before = {{ fail2ban__jail_defaults.before }}
+{%      endif %}
+[DEFAULT]
+{%    if fail2ban__jail_defaults.ignoreip is defined and fail2ban__jail_defaults.ignoreip  %}
+ignoreip = {{ fail2ban__jail_defaults.ignoreip }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.ignorecommand is defined and fail2ban__jail_defaults.ignorecommand  %}
+ignorecommand = {{ fail2ban__jail_defaults.ignorecommand }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.bantime is defined and fail2ban__jail_defaults.bantime  %}
+bantime = {{ fail2ban__jail_defaults.bantime }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.findtime is defined and fail2ban__jail_defaults.findtime  %}
+findtime = {{ fail2ban__jail_defaults.findtime }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.maxretry is defined and fail2ban__jail_defaults.maxretry  %}
+maxretry = {{ fail2ban__jail_defaults.maxretry }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.backend is defined and fail2ban__jail_defaults.backend  %}
+backend = {{ fail2ban__jail_defaults.backend }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.usedns is defined and fail2ban__jail_defaults.usedns  %}
+usedns = {{ fail2ban__jail_defaults.usedns }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.logencoding is defined and fail2ban__jail_defaults.logencoding  %}
+logencoding = {{ fail2ban__jail_defaults.logencoding }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.enabled is defined and fail2ban__jail_defaults.enabled  %}
+enabled = {{ fail2ban__jail_defaults.enabled }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.filter is defined and fail2ban__jail_defaults.filter  %}
+filter = {{ fail2ban__jail_defaults.filter }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.destemail is defined and fail2ban__jail_defaults.destemail  %}
+destemail = {{ fail2ban__jail_defaults.destemail }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.sender is defined and fail2ban__jail_defaults.sender  %}
+sender = {{ fail2ban__jail_defaults.sender }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.mta is defined and fail2ban__jail_defaults.mta  %}
+mta = {{ fail2ban__jail_defaults.mta }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.protocol is defined and fail2ban__jail_defaults.protocol  %}
+protocol = {{ fail2ban__jail_defaults.protocol }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.chain is defined and fail2ban__jail_defaults.chain  %}
+chain = {{ fail2ban__jail_defaults.chain }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.port is defined and fail2ban__jail_defaults.port  %}
+port = {{ fail2ban__jail_defaults.port }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.fail2ban_agent is defined and fail2ban__jail_defaults.fail2ban_agent  %}
+fail2ban_agent = {{ fail2ban__jail_defaults.fail2ban_agent }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.banaction is defined and fail2ban__jail_defaults.banaction  %}
+banaction = {{ fail2ban__jail_defaults.banaction }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.banaction_allports is defined and fail2ban__jail_defaults.banaction_allports  %}
+banaction_allports = {{ fail2ban__jail_defaults.banaction_allports }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.action_ is defined and fail2ban__jail_defaults.action_  %}
+action_ = {{ fail2ban__jail_defaults.action_ }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.action_mw is defined and fail2ban__jail_defaults.action_mw  %}
+action_mw = {{ fail2ban__jail_defaults.action_mw }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.action_mwl is defined and fail2ban__jail_defaults.action_mwl  %}
+action_mwl = {{ fail2ban__jail_defaults.action_mwl }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.action_xarf is defined and fail2ban__jail_defaults.action_xarf  %}
+action_xarf = {{ fail2ban__jail_defaults.action_xarf }}
+{%      endif %}
+{%    if fail2ban__jail_defaults.action is defined and fail2ban__jail_defaults.action  %}
+action = {{ fail2ban__jail_defaults.action }}
+{%      endif %}
+{% endif %}
+
+{% for item in fail2ban__jail_services %}
+[{{ item.name }}]
+{%    for key, value in item.iteritems() %}
+{%      if key not in [ 'name' ] %}
+{{ "%-14s = %s" | format(key, value ) }}
+{%        endif %}
+{%       endfor %}
+{% endfor %}

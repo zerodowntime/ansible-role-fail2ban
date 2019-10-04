@@ -1,0 +1,70 @@
+{% set item = tmpVariable %}
+{%  if 'before' in item.keys() or 'after' in item.keys() %}
+[INCLUDES]
+{%    endif %}
+{%  if 'before' in item.keys() %}
+{{ "%-14s = %s" | format('before', item["before"]) }}
+{%    endif %}
+{%  if 'after' in item.keys() %}
+{{ "%-14s = %s" | format('after', item["after"]) }}
+{%    endif %}
+{%  if 'actionstart' in item.keys() or 'actionstop' in item.keys() or 'actioncheck' in item.keys() or 'actionban' in item.keys() or 'actionunban' in item.keys() %}
+[Definition]
+{%    endif %}
+{%  if 'actionstart' in item.keys() %}
+{{ "%-14s = %s" | format('actionstart', item["actionstart"]) }}
+{%    endif %}
+{%  if 'actionstop' in item.keys() %}
+{{ "%-14s = %s" | format('actionstop', item["actionstop"]) }}
+{%    endif %}
+{%  if 'actioncheck' in item.keys() %}
+{{ "%-14s = %s" | format('actioncheck', item["actioncheck"]) }}
+{%    endif %}
+{%  if 'actionban' in item.keys() %}
+{{ "%-14s = %s" | format('actionban', item["actionban"]) }}
+{%    endif %}
+{%  if 'actionunban' in item.keys() %}
+{{ "%-14s = %s" | format('actionunban', item["actionunban"]) }}
+{%    endif %}
+{%  if 'name' in item.keys() or 'name' in item.keys()  or 'timeout' in item.keys() or 'email' in item.keys() or 'apikey' in item.keys() %}
+[Init]
+{%    endif %}
+{%  if 'name' in item.keys() %}
+{{ "%-14s = %s" | format('name', item["name"]) }}
+{%    endif %}
+{%  if 'timeout' in item.keys() %}
+{{ "%-14s = %s" | format('timeout', item["timeout"]) }}
+{%    endif %}
+{%  if 'email' in item.keys() %}
+{{ "%-14s = %s" | format('email', item["email"]) }}
+{%    endif %}
+{%  if 'apikey' in item.keys()  %}
+{{ "%-14s = %s" | format('apikey', item["apikey"]) }}
+{%    endif %}
+{%  if 'service' in item.keys() %}
+{{ "%-14s = %s" | format('service', item["service"]) }}
+{%    endif %}
+{%  if 'cftoken' in item.keys() %}
+{{ "%-14s = %s" | format('cftoken', item["cftoken"]) }}
+{%    endif %}
+{%  if 'cfuser' in item.keys() %}
+{{ "%-14s = %s" | format('cfuser', item["cfuser"]) }}
+{%    endif %}
+{%  if 'port' in item.keys() %}
+{{ "%-14s = %s" | format('port', item["port"]) }}
+{%    endif %}
+{%  if 'dest' in item.keys() %}
+{{ "%-14s = %s" | format('dest', item["dest"]) }}
+{%    endif %}
+{%  if 'init' in item.keys() %}
+{{ "%-14s = %s" | format('init', item["init"]) }}
+{%    endif %}
+{%  if 'chain' in item.keys() %}
+{{ "%-14s = %s" | format('chain', item["chain"]) }}
+{%    endif %}
+{%  if 'protocol' in item.keys() %}
+{{ "%-14s = %s" | format('protocol', item["protocol"]) }}
+{%    endif %}
+{%  if 'blocktype' in item.keys() %}
+{{ "%-14s = %s" | format('blocktype', item["blocktype"]) }}
+{%    endif %}

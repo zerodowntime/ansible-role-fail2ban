@@ -1,0 +1,44 @@
+---
+# zerodowntime.fail2ban/vars/main.yml
+
+
+#? fail2ban__config_directory:
+#?   type: string
+#?   description: Path to the main config directory.
+#?   required: True
+fail2ban__config_directory: /etc/fail2ban
+
+
+#? fail2ban__custom_config_file:
+#?   type: string
+#?   description: Path to the file for fail2ban custom configuration.
+#?   required: True
+fail2ban__custom_config_file: "{{ fail2ban__config_directory }}/fail2ban.local"
+
+
+#? fail2ban__path_jail_conf:
+#?   type: string
+#?   description: Path to the main default jail.conf file.
+#?   required: True
+fail2ban__path_jail_conf: /etc/fail2ban/jail.conf
+
+
+#? fail2ban__path_jail_local:
+#?   type: string
+#?   description: Path to the custom jail.local file.
+#?   required: True
+fail2ban__path_jail_local: /etc/fail2ban/jail.local
+
+
+#? fail2ban__jail_local_file_backup:
+#?   type: bool
+#?   description: Whether to make a jail.local file backup or not.
+#?   required: True
+fail2ban__jail_local_file_backup: false
+
+
+#? fail2ban__fail2ban_local_file_backup:
+#?   type: bool
+#?   description: Whether to make a fail2ban.local file backup or not.
+#?   required: True
+fail2ban__fail2ban_local_file_backup: false

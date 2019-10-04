@@ -1,0 +1,24 @@
+{% if fail2ban__fail2ban_local is defined and fail2ban__fail2ban_local  %}
+[Definition]
+{%   if fail2ban__fail2ban_local.loglevel is defined and fail2ban__fail2ban_local.loglevel  %}
+loglevel = {{ fail2ban__fail2ban_local.loglevel }}
+{%      endif %}
+{%   if fail2ban__fail2ban_local.logtarget is defined and fail2ban__fail2ban_local.logtarget  %}
+logtarget = {{ fail2ban__fail2ban_local.logtarget }}
+{%      endif %}
+{%   if fail2ban__fail2ban_local.syslogsocket is defined and fail2ban__fail2ban_local.syslogsocket  %}
+syslogsocket = {{ fail2ban__fail2ban_local.syslogsocket }}
+{%      endif %}
+{%   if fail2ban__fail2ban_local.socket is defined and fail2ban__fail2ban_local.socket  %}
+socket = {{ fail2ban__fail2ban_local.socket }}
+{%      endif %}
+{%   if fail2ban__fail2ban_local.pidfile is defined and fail2ban__fail2ban_local.pidfile  %}
+pidfile = {{ fail2ban__fail2ban_local.pidfile }}
+{%      endif %}
+{%   if fail2ban__fail2ban_local.dbfile is defined and fail2ban__fail2ban_local.dbfile  %}
+dbfile = {{ fail2ban__fail2ban_local.dbfile }}
+{%      endif %}
+{%   if fail2ban__fail2ban_local.dbpurgeage is defined and fail2ban__fail2ban_local.dbpurgeage  %}
+dbpurgeage = {{ fail2ban__fail2ban_local.dbpurgeage }}
+{%      endif %}
+{% endif %}

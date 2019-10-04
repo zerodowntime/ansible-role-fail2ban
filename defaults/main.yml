@@ -1,0 +1,263 @@
+---
+# zerodowntime.fail2ban/defaults/main.yml
+
+
+#? fail2ban__package_name:
+#?   type: string
+#?   description: Package name to be installed.
+#?   required: True
+fail2ban__package_name: fail2ban
+
+
+#? fail2ban__package_state:
+#?   type: string
+#?   description: Whether to install the package or not.
+#?   required: True
+fail2ban__package_state: present
+
+
+#? fail2ban__service_name:
+#?   type: string
+#?   description: Name of the service.
+#?   required: True
+fail2ban__service_name: fail2ban
+
+
+#? fail2ban__service_state:
+#?   type: string
+#?   description: Service state.
+#?   required: True
+fail2ban__service_state: started
+
+
+#? fail2ban__service_enable:
+#?   type: bool
+#?   description: Whether the service should start on boot.
+#?   required: True
+fail2ban__service_enable: true
+
+
+#? fail2ban__blacklisted_files:
+#?   type: list
+#?   description: Default installation files to be removed.
+#                 By default during installation, fail2ban installs extra files to additional configuration.
+#                 For example in the jail.d directory.
+#?   required: True
+fail2ban__blacklisted_files:
+  - jail.d/defaults-debian.conf
+  - jail.d/00-firewalld.conf
+
+
+#? fail2ban__jail_defaults_disabled:
+#?   type: bool
+#?   description: Whether to disable all the enabled services in jail.conf by default.
+#                 /etc/fail2ban/jail.conf has services enabled by default (ssh) that fail2ban will monitor.
+#                 If you wish to create your own configuration for chosen services only,
+#                 set {{ fail2ban__jail_defaults_disabled }} to 'true'.
+#?   required: True
+fail2ban__jail_defaults_disabled: false
+
+
+#? fail2ban__fail2ban_local:
+#?   type: dict
+#?   description: Custom configuration for fail2ban.local file.
+#?   required: False
+###################################################################################################################
+# "loglevel"          Verbosity level of log output, options:
+#                       - CRITICAL
+#                       - ERROR
+#                       - WARNING
+#                       - NOTICE
+#                       - INFO
+#                       - DEBUG
+# "logtarget"        The log target. This could be a file, SYSLOG, STDERR or STDOUT.
+#                    Only one log target can be specified.
+# "syslogsocket"     Set the syslog socket file. Only used when logtarget is SYSLOG.
+# "socket"         This is used to communicate with the daemon. Do not remove this file when Fail2ban runs. It will not be possible to
+#                  communicate with the server afterwards.
+# "pidfile"        This is used to store the process ID of the fail2ban server.
+# "dbfile"        The file for the fail2ban persistent data to be stored.
+# "dbpurgeage"         Sets age at which bans should be purged from the database (seconds)
+fail2ban__fail2ban_local: {}
+#    loglevel:
+#    logtarget:
+#    syslogsocket:
+#    socket:
+#    pidfile:
+#    dbfile:
+#    dbpurgeage:
+
+
+#? fail2ban__jail_defaults:
+#?   type: dict
+#?   description: Default configuration for jails, written to /etc/fail2ban/jail.local custom file.
+#                 To add configuration for single services/create a service, use {{ fail2ban__jail_services }} below.
+#?   required: False
+# The [DEFAULT] section allows a global definition of the options. They can be overridden in each jail afterwards.
+# "before"          Action to be sourced first, when the file starts (default: paths-fedora.conf)
+# "ignoreip"        IP addres that should be ignored by the banning system (default: localhost)
+#                   Several addresses can be defined using space (and/or comma) separator.
+# "bantime"         The number of seconds that a host is banned (default: 600)
+# "findtime"        Host is banned if it has generated "maxretry" during the last "findtime" seconds (default: 600)
+# "maxretry"        The number of failures before a host get banned (default: 5)
+# "backend"         Specifies the backend to be used to detect changes in the logpath (default: auto), options:
+#                    + pyinotify: requires pyinotify (a file alteration monitor) to be installed.
+#                    +              If pyinotify is not installed, Fail2ban will use auto.
+#                    + gamin:     requires Gamin (a file alteration monitor) to be installed.
+#                    +              If Gamin is not installed, Fail2ban will use auto.
+#                    + polling:   uses a polling algorithm which does not require external libraries.
+#                    + systemd:   uses systemd python library to access the systemd journal.
+#                    +              Specifying "logpath" is not valid for this backend.
+#                    +              See "journalmatch" in the jails associated filter config
+#                    + auto:      will try to use the following backends, in order:
+#                    +              pyinotify, gamin, polling.
+#                    + Note: if systemd backend is chosen as the default but you enable a jail
+#                     for which logs are present only in its own log files, specify some other
+#                     backend for that jail (e.g. polling) and provide empty value for
+#                     journalmatch.
+# "usedns"          Specifies if jails should trust hostnames in logs (default: warn)
+#                    + yes:   if a hostname is encountered, a DNS lookup will be performed.
+#                    + warn:  if a hostname is encountered, a DNS lookup will be performed,
+#                    +        but it will be logged as a warning.
+#                    + no:    if a hostname is encountered, will not be used for banning,
+#                    +        but it will be logged as info.
+#                    + raw:   use raw value (no hostname), allow use it for no-host filters/actions (example user)
+# "logencoding"     Specifies the encoding of the log files handled by the jail (default: auto)
+# "enabled"         Enables the jails (default: true)
+# "filter"          Defines the filter to use by the jail
+#                   By default jails have names matching their filter name (default: %(__name__)s )
+# "destemail"       Default: root@localhost
+# "sender"          Default: root@localhost
+# "mta"             Default: sendmail
+# "protocol"        Default: tcp
+# "chain"           Specify chain where jumps would need to be added in iptables-* actions (default: INPUT)
+# "port"            Ports to be banned (default: 0:65535)
+# "fail2ban_agent"  Format of user-agent https://tools.ietf.org/html/rfc7231#section-5.5.3 (default: Fail2Ban/%(fail2ban_version)s )
+# "action_"         The simplest action to take: ban only
+# "action_mw"       Ban & send an e-mail with whois report to the destemail.
+# "action_mwl"      Ban & send an e-mail with whois report and relevant log lines to the destemail.
+# "action_xarf"     Ban & send a xarf e-mail to abuse contact of IP address and include relevant log lines to destmail.
+# "action"          Default action to be taken.
+fail2ban__jail_defaults: {}
+#    before:
+#    ignoreip:
+#    ignorecommand:
+#    bantime:
+#    findtime:
+#    maxretry:
+#    backend:
+#    usedns:
+#    logencoding:
+#    enabled:
+#    filter:
+#    destemail:
+#    sender:
+#    mta:
+#    protocol:
+#    chain:
+#    port:
+#    fail2ban_agent:
+#    banaction:
+#    banaction_allports:
+#    action_:
+#    action_mw:
+#    action_mwl:
+#    action_xarf:
+#    action:
+
+
+#? fail2ban__jail_services:
+#?   type: list
+#?   description: Configuration/creation of jails for a single services.
+#?   required: False
+# example:
+# fail2ban__jail_services:
+#  - name: ssh
+#    enabled: true
+#    port: ssh
+#  - name: slapd
+#    port: ldap,ldaps
+#    enabled: true
+#    logpath: /var/log/slapd.log
+fail2ban__jail_services: []
+# - name:
+#   before:
+#   enabled:
+#   port:
+#   ignoreip:
+#   ignorecommand:
+#   logpath:
+#   bantime:
+#   findtime:
+#   maxretry:
+#   backend:
+#   filter:
+#   action:
+
+
+#? fail2ban__custom_filter:
+#?   type: list
+#?   description: Settings for a custom filter.
+#                 Filters are used to identify failed authentication attempts in log files.
+#?   required: False
+#  "name":          The name must match your service name.
+#  "failregex":     The regex (regular expression) that will match failed attempts.
+#  "ignoreregex":   The regex to identify log entries that should be ignored by Fail2Ban, even if they match failregex.
+#  "maxlines":      Specifies the maximum number of lines to buffer to match multi-line regexs.
+#                   For some log formats this will not required to be changed. Other logs may require to increase
+#                   this value if a particular log file is frequently written to.
+#  "datepattern":   Specifies a custom date pattern/regex as an alternative to the default date detectors .
+#  "journalmatch":  Specifies the systemd journal match used to filter the journal entries.
+#                   This option is only valid for the systemd backend.
+fail2ban__custom_filter: []
+#  - name:
+#    before:
+#    after:
+#    _daemon:
+#    failregex:
+#    ignoreregex:
+#    maxlines:
+#    datepattern:
+#    journalmatch:
+
+
+#? fail2ban__custom_action:
+#?   type: list
+#?   description: Settings for a custom action.
+#?   required: True
+# "filename":      The name under which your action will be saved.
+# "actionstart":   Command executed once at the start of Fail2Ban.
+# "actionstop":    Command executed once at the end of Fail2Ban
+#  "actioncheck":  Command executed once before each actionban command
+#  "actionban":    Command executed when banning an IP. Take care that the
+#                  Command is executed with Fail2Ban user rights.
+# "actionunban":   Command executed when unbanning an IP. Take care that the
+#                  Command is executed with Fail2Ban user rights.
+# "timeout":       The maximum period of time in seconds that a command can be executed, before being killed ([Init])
+# Some other value to use in [Init] section:
+# "name", "email", "apikey", "service", "cftoken", "cfuser", "port", "dest", "init", "chain", "protocol", "blocktype"
+# NOTE: if you add your own key, please modify action.tmpl.local.j2 for those keys under [Init],
+#       Add it above [Init] -> or 'key' in item.keys().
+#       If you want to define the key that is not in the dict, also add corresponding config to template.
+fail2ban__custom_action: []
+#  - filename:
+#    before:
+#    after:
+#    actionstart:
+#    actionstop:
+#    actioncheck:
+#    actionban:
+#    actionunban:
+#    name:
+#    timeout:
+#    email:
+#    apikey:
+#    service:
+#    cftoken:
+#    cfuser:
+#    port:
+#    dest:
+#    init:
+#    chain:
+#    protocol:
+#    blocktype:
